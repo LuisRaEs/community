@@ -1,0 +1,12 @@
+#loginContainer{
+    position:relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    background-color: #FFF;
+    margin: 20vh auto;
+    width: 457px;
+    height: 497px;
+    max-width: 600px;
+}
+

@@ -1,13 +1,18 @@
 'use client'
 import { useSelector } from "react-redux"
+import Image from "next/image"
+import bg from "@/public/img/bgLogin.jpg"
+import "@/public/bootstrap.min.css"
+import LoginContainer from "@/Components/LoginContainer/LoginContainer"
 import "./general.css"
 
 export default function Root(){
-    const languaje = useSelector(state=>state)
+    const languaje = useSelector(state=>state.sesionReducer.lang)
     console.log(languaje)
     return(
         <>
-            <p>Login</p>
+            <Image src={bg} alt="Imagen de fondo" fill={true}/>
+            <LoginContainer/>
         </>
     )
 }
