@@ -35,12 +35,23 @@ export default function Main() {
     })
     
     return(
+
         <main>
-            {
-            }
+            
             <Izquierda/>
             <Centro/>
             <Derecha/>
+            {/*
+            
+                <div id="rc">
+                    <div class="ripple"></div>
+                </div>
+
+            */}
         </main>
+        
+            
+        
+        
     )
 }
