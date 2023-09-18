@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const sesion = createSlice({
+const sesionSlice = createSlice({
     name: 'sesion',
     initialState:{
         username:"",
@@ -15,5 +15,5 @@ const sesion = createSlice({
     }
 })
 
-export const {changeLang} = sesion.actions;
-export const sesionReducer = sesion.reducer;
+export const {changeLang} = sesionSlice.actions;
+export const sesion = sesionSlice.reducer;

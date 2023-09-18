@@ -1,20 +1,40 @@
+'use client'
 import "./LoginContainer.css"
+import { useEffect , useState } from "react"
+import { useSelector } from "react-redux"
+import en from "@/public/diccionarios/en.js"
+import es from "@/public/diccionarios/es.js"
 import LoginLogo from "../LoginLogo/LoginLogo"
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
+import Input from "../Input/Input"
+import LanguajeSelector from "../LanguageSelector/LanguajeSelector"
 
 export default function LoginContainer() {
-  return (
-    <div id="loginContainer">
-        <LoginLogo/>
-        <InputGroup className="mb-3">
-        <InputGroup.Text id="basic-addon1">@</InputGroup.Text>
-        <Form.Control
-          placeholder="Username"
-          aria-label="Username"
-          aria-describedby="basic-addon1"
-        />
-      </InputGroup>
-    </div>
-  )
+    let lang = useSelector(state=>state.sesion.lang)
+    let [t,setT] = useState(es)
+    useEffect(()=>{
+        lang === "es" ? setT(()=>es) : setT(()=>en)
+    },[lang])
+
+    return (
+        <div id="loginContainer">
+            <LanguajeSelector/>
+            <LoginLogo/>
+            <div id="loginInputsContainer">
+                <Input
+                    id="userInput"
+                    label= {t["login_loginContainer_userInputIndicator"]}
+                    type="text"
+                    handleChange=""
+                    inputWidth="70%"
+                />
+                <Input
+                    id="passwordInput"
+                    label= {t["login_loginContainer_passwordInputIndicator"]}
+                    type="text"
+                    handleChange=""
+                    inputWidth="70%"
+                />
+            </div>
+        </div>
+    )
 }

@@ -75,7 +75,7 @@ let initialPosts = [
     }
 ]
 
-const posts = createSlice({
+const postsSlice = createSlice({
     name: 'posts',
     initialState: initialPosts ?? {},
     reducers: {
@@ -141,5 +141,5 @@ const posts = createSlice({
     }
 })
 
-export const {createPost,changePostStatus,editPost} = posts.actions;
-export const postsReducer = posts.reducer;
+export const {createPost,changePostStatus,editPost} = postsSlice.actions;
+export const posts = postsSlice.reducer;

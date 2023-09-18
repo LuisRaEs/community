@@ -2,7 +2,7 @@
 import Boton from "@/Components/Boton/Boton"
 import "./Checador.css"
 import { useEffect, useState } from "react";
-import Input2 from "../Input2/Input2";
+import Input2 from "../Input/Input";
 
 export default function Checador(){
 

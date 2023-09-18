@@ -7,12 +7,11 @@ import LoginContainer from "@/Components/LoginContainer/LoginContainer"
 import "./general.css"
 
 export default function Root(){
-    const languaje = useSelector(state=>state.sesionReducer.lang)
-    console.log(languaje)
+    const languaje = useSelector(state=>state.sesion.lang)
     return(
-        <>
-            <Image src={bg} alt="Imagen de fondo" fill={true}/>
+        <div id="loginPage">
+            <Image src={bg} alt="Imagen de fondo" fill={true} priority={true}/>
             <LoginContainer/>
-        </>
+        </div>
     )
 }
