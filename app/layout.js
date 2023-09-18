@@ -1,4 +1,5 @@
 import Providers from "@/public/store/provider.js"
+import "@/public/bootstrap.min.css"
 
 export const metadata = {
     title: "Sabueso-Community"

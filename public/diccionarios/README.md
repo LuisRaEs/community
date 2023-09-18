@@ -29,7 +29,7 @@ Este se compone de **KEYS** y **VALUES** de la forma:
 Para fines del proyecto las **KEYS** tendrán el formato:
 
 ```
-    nombreDeLaRuta-nombreDelComponente-identificador
+    nombreDeLaRuta_nombreDelComponente_identificador
 ```
 
 
