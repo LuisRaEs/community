@@ -1,4 +1,9 @@
 #Centro{
-    grid-column: 2 / 4;
+    grid-column: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px 10px 20px 70px;
 }
 

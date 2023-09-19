@@ -30,6 +30,25 @@ export default function Checador(){
         console.log(e.target.value)
     }
 
+    const UnMinuto = 60 * 1000;
+    const UnaHora = 60 * UnMinuto;
+    const jornada = 8 * UnaHora;
+
+    const [restante,setRestante] = useState(`Timpo restante: 8 hrs 00 min.`);
+    useEffect(() => {
+        const getTiempoRestante = ()=>{
+            const checkIn = new Date("2023-09-19 12:35:00");
+            const current = new Date()
+            const diffTime = current.getTime() - checkIn.getTime();
+            const horasFaltantes = Math.floor((jornada - diffTime) / UnaHora);
+            const minutosFaltantes = Math.floor(((jornada - diffTime) % UnaHora)/UnMinuto);
+            setRestante(`Timpo restante: ${horasFaltantes<0?0:horasFaltantes} hrs ${minutosFaltantes<0?0:minutosFaltantes} min.`)
+        };
+
+        getTiempoRestante();
+        const checker = setInterval( ()=>{ getTiempoRestante(); }, UnMinuto );
+        return () => clearInterval(checker);
+    }, []);
 
     const iniciar = () => {
         console.log("Inicie")
@@ -47,7 +66,7 @@ export default function Checador(){
                 <p>{reloj}</p>
             </div>
             <div id="horasRestantes">
-                <p>{reloj}</p>
+                <p>{restante}</p>
             </div>
             <div id="botones">
                 <Boton

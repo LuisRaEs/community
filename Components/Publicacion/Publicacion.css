@@ -5,6 +5,7 @@
     align-items: center;
     width: 100%;
     background-color: rgba(210, 189, 189,0.5);
+    border: solid 3px red;
 }
 
 #Publicacion #imgcont{
@@ -16,8 +17,8 @@
 
 #imgcont #imgg{
     background-image: linear-gradient(45deg, blue, red);;
-    width: 720px;
-    height: 720px;
+    width: 70px;
+    height: 70px;
 }
 
 #newComment{

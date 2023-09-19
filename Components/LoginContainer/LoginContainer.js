@@ -32,7 +32,9 @@ export default function LoginContainer() {
     return (
         <div id="loginContainer">
             <LanguajeSelector/>
-            <LoginLogo/>
+            <div id ="loginLogoContainer" >
+                <LoginLogo />
+            </div>
             <div id="loginInputsContainer">
                 <Input
                     id="id"
