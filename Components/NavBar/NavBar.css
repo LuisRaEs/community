@@ -1,5 +1,30 @@
-nav{
+#NBar{
     display: flex;
+    position: fixed;
     flex-direction: column;
+    height: 100%;
+    background-color: black;
 }
 
+#NBar a{
+    text-decoration: none;
+}
+#NBar span{
+    text-decoration: none;
+}
+.nbbutton{
+    background-color: azure;
+}
+
+#NBar i {
+    font-size: 30px;
+}
+
+#Nbar span{
+    font-size: 30px;
+}
+
+.nbbutton:hover{
+    cursor: pointer;
+    background-color: bisque;
+}

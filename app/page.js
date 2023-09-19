@@ -13,11 +13,11 @@ export default function Root(){
 
     useEffect(()=>{
         if(logged)
-            router.push("/home")
+            router.push("/community")
     },[logged])
     return(
         <div id="loginPage">
-            <Image src={bg} alt="Imagen de fondo" fill={true} priority={true}/>
+            <Image src={bg} alt="Imagen de fondo" fill={true}/>
             <LoginContainer/>
         </div>
     )

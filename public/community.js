@@ -69,7 +69,7 @@ function getClaim(token, claimName) {
   const decoded = decodeJWT(token);
   return decoded[claimName];
 }
-class ServerResponse {
+export class ServerResponse {
   constructor(success = null, failure = null) {
     this.success = success;
     this.failure = failure;
