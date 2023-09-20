@@ -1,38 +1,58 @@
 'use client'
 import "./LoginContainer.css"
 import { useEffect , useState } from "react"
-import { useSelector } from "react-redux"
+import { useSelector , useDispatch } from "react-redux"
 import en from "@/public/diccionarios/en.js"
 import es from "@/public/diccionarios/es.js"
 import LoginLogo from "../LoginLogo/LoginLogo"
 import Input from "../Input/Input"
 import LanguajeSelector from "../LanguageSelector/LanguajeSelector"
+import fetchSesion from "@/public/store/slices/sesion/fetchSesion"
+import Boton from "../Boton/Boton"
 
 export default function LoginContainer() {
+    const dispatch = useDispatch()
     let lang = useSelector(state=>state.sesion.lang)
-    let [t,setT] = useState(es)
+    const [t,setT] = useState(es)
+    const [user,setUser] = useState({id:"",pass:""})
+
+
+    const handleChange = (e)=>{
+        setUser((state)=>{return {...state, [e.target.id] : e.target.value}})
+    }
+    const handleSubmit = ()=>{
+        dispatch(fetchSesion(user))
+    }
+
     useEffect(()=>{
         lang === "es" ? setT(()=>es) : setT(()=>en)
     },[lang])
 
+
     return (
         <div id="loginContainer">
             <LanguajeSelector/>
-            <LoginLogo/>
+            <div id ="loginLogoContainer" >
+                <LoginLogo />
+            </div>
             <div id="loginInputsContainer">
                 <Input
-                    id="userInput"
+                    id="id"
                     label= {t["login_loginContainer_userInputIndicator"]}
                     type="text"
-                    handleChange=""
-                    inputWidth="70%"
+                    value = {user.id}
+                    handleChange={handleChange}
                 />
                 <Input
-                    id="passwordInput"
+                    id="pass"
                     label= {t["login_loginContainer_passwordInputIndicator"]}
-                    type="text"
-                    handleChange=""
-                    inputWidth="70%"
+                    type="password"
+                    value = {user.pass}
+                    handleChange={handleChange}
+                />
+                <Boton
+                    handleClick={handleSubmit}
+                    text = {t["login_loginContainer_passwordButtonSend"]}
                 />
             </div>
         </div>

@@ -1,14 +1,16 @@
 
 import "./Boton.css"
 
-export default function Boton ({identifier,icon,onClick}){
-    const handleClick = ()=>{
-
-    }
+export default function Boton ({identifier,icon,handleClick,text}){
     return(
-        <div className="Boton" id={identifier} name={identifier} onClick={()=>onClick()}>
-            {icon ? icon : ""}
-            <p>{identifier}</p>
-        </div>
+        <button  
+            className="btn btn-lg btn-primary" 
+            style={{width:"70%",margin:"0 auto"}}
+            type="button"
+            id={identifier}
+            onClick={()=>handleClick()}>
+            {icon ?? ""}
+            {text ?? "Texto"}
+        </button>
     )
 }

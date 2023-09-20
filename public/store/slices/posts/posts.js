@@ -94,7 +94,7 @@ const postsSlice = createSlice({
                 },
                 coments:[]
             }
-            return [...state,newPost]
+            return [newPost,...state]
         },
         changePostStatus:(state,action)=>{
             let selectedPost = state.find(el=>{
@@ -111,11 +111,12 @@ const postsSlice = createSlice({
             return [...newState,selectedPost]
         },
         editPost:(state,action)=>{
-            let selectedPost = state.find(el=>{
-                if (el.id === action.payload.id)
-                    return {...el}
-            })
+            let selectedPost = state.find(el=>el.id === action.payload.id)
 
+           /* for(key in selectedPost){
+                if(action.payload[key])*/
+/*
+            }
             let newPost = {
                 id: selectedPost.id,
                 userID: selectedPost.userID,
@@ -134,9 +135,9 @@ const postsSlice = createSlice({
             let newState = state.filter(el=>{
                 if (el.id !== action.payload.id)
                     return {...el}
-            })
-
-            return [...newState,newPost]
+    
+*/
+            return []
         }
     }
 })

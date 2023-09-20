@@ -7,11 +7,11 @@ export default function Menu(){
                 <li><Link href="#">Noticias</Link></li>
                 <li><Link href="#">Beneficios</Link></li>
                 <li><Link href="#">Personas</Link></li>
-                <li><Link href="ausencias">Ausencias</Link></li>
+                <li><Link href="community/ausencias">Ausencias</Link></li>
                 <li><Link href="#">Encuestas</Link></li>
                 <li><Link href="#">Reserva Salas</Link></li>
                 <li><Link href="#">Documentos</Link></li>
-                <li><Link href="checador">Reloj Checador</Link></li>
+                <li><Link href="community/checador">Reloj Checador</Link></li>
             </ul>
     )
 }
