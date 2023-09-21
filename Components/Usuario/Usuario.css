@@ -11,8 +11,8 @@
     box-shadow: 5px 5px 10px rgba(55,94,148,.2), -5px -5px 10px rgba(255,255,255,.4);
 }
 
-#fakeimg{
-    background-color: aqua;
-    width: 100px;
-    height: 100px;
+#nombreCompleto{
+    font-size: 30px;
+    font-weight: 900;
 }
+
