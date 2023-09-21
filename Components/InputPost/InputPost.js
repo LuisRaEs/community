@@ -7,9 +7,20 @@ import "./InputPost.css"
 
 export default function InputPost() {
     return (
-        <Container>
-            <Form.Control as="textarea" aria-label="With textarea" placeholder="NEwPost" style={{height:"150px",borderRadius:"20px"}}/>
-            <Button variant="primary">Send</Button>
-        </Container>
+        <div id="InputPostContainer">
+            <Form.Control 
+                as="textarea" 
+                aria-label="With textarea" 
+                placeholder="New Post" 
+                style={{height:"150px",borderRadius:"20px", width: "90%"}}/>
+            <div id="addBar">
+                <i className="bi bi-card-image"></i>
+                <i className="bi bi-camera-reels"></i>
+                <div id="btnCont">
+                    <Button variant="primary" style={{width:"70%"}}>Publicar</Button>
+                </div>
+            </div>
+            
+        </div>
     )
 }

@@ -4,9 +4,11 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    border: solid 1px black;
-    border-radius: 5px;
-    width: 100%;
+    width: 90%;
+    border-radius: 30px;
+    border: solid 0 transparent;
+    padding: 30px;
+    box-shadow: 5px 5px 10px rgba(55,94,148,.2), -5px -5px 10px rgba(255,255,255,.4);
 }
 
 .titulo{
@@ -37,4 +39,5 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    gap: 20PX;
 }
