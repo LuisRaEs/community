@@ -3,9 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 let initialPosts = [
     {
         id: "0",
-        userID: "1",
+        user: {
+            id: "1",
+            username: "Ricardo Ruiz",
+            userImg: "https://cdn.pixabay.com/photo/2023/08/15/05/37/lighthouse-8191282_1280.jpg"
+        },
         status: "1",
-        content:"Somos Hound Express: !Feliz Cumpleaños a todos los Hounters de Agosto",
+        content:"Somos Hound Express: !Feliz Cumpleaños a todos los Cumpleañeros de Agosto",
         files:[],
         images:[],
         videos:[],
@@ -13,11 +17,15 @@ let initialPosts = [
             likes:"20",
             recommendations:"1"
         },
-        coments:[]
+        comments:[]
     },
     {
         id: "1",
-        userID: "1",
+        user: {
+            id: "1",
+            username: "Ricardo Ruiz",
+            userImg: "https://cdn.pixabay.com/photo/2023/08/15/05/37/lighthouse-8191282_1280.jpg"
+        },
         status: "1",
         content:"Menu de la semana",
         files:[],
@@ -31,7 +39,7 @@ let initialPosts = [
             {
                 content:"Abrá algun dá en especial???",
                 userImg: "url",
-                userName: "",
+                username: "",
                 userID: "",
                 userRol: "",
                 timePost: "10",
@@ -41,7 +49,11 @@ let initialPosts = [
     },
     {
         id: "2",
-        userID: "1",
+        user: {
+            id: "1",
+            username: "Ricardo Ruiz",
+            userImg: "https://cdn.pixabay.com/photo/2023/08/15/05/37/lighthouse-8191282_1280.jpg"
+        },
         status: "1",
         content:"Comunicado especial",
         files:[],
@@ -54,8 +66,8 @@ let initialPosts = [
         comments:[
             {
                 content:"Entendido",
-                userImg: "url",
-                userName: "",
+                userImg: "https://cdn.pixabay.com/photo/2023/09/04/16/21/spider-8233129_1280.jpg",
+                username: "Jorge Jimenez",
                 userID: "",
                 userRol: "",
                 timePost: "10",
@@ -63,8 +75,8 @@ let initialPosts = [
             },
             {
                 content:"Entendido",
-                userImg: "url",
-                userName: "",
+                userImg: "https://cdn.pixabay.com/photo/2023/09/10/05/40/motmot-8244307_1280.jpg",
+                username: "Pancho Lopez",
                 userID: "",
                 userRol: "",
                 timePost: "5",
@@ -82,7 +94,7 @@ const postsSlice = createSlice({
         createPost:(state,action)=>{
             let newPost = {
                 id: state.length,
-                userID: action.payload.userID,
+                user: action.payload.user,
                 status: "1",
                 content: action.payload.content?? "",
                 files: action.payload.files ?? [],
@@ -113,31 +125,14 @@ const postsSlice = createSlice({
         editPost:(state,action)=>{
             let selectedPost = state.find(el=>el.id === action.payload.id)
 
-           /* for(key in selectedPost){
-                if(action.payload[key])*/
-/*
-            }
-            let newPost = {
-                id: selectedPost.id,
-                userID: selectedPost.userID,
-                status: selectedPost.status,
-                content: action.payload.content?? selectedPost.content,
-                files: action.payload.files ?? selectedPost.files,
-                images: action.payload.images ?? selectedPost.images,
-                videos: action.payload.videos ?? selectedPost.videos,
-                reactions:{
-                    likes:selectedPost.reactions.likes,
-                    recommendations:selectedPost.reactions.likes
-                },
-                coments: selectedPost.comments
+           for(key in selectedPost){
+                if(action.payload[key])
+                    selectedPost[key] = action.payload[key]
             }
 
-            let newState = state.filter(el=>{
-                if (el.id !== action.payload.id)
-                    return {...el}
+            let newState = state.filter(el=>el.id !== action.payload.id)
     
-*/
-            return []
+            return [...newState,selectedPost]
         }
     }
 })

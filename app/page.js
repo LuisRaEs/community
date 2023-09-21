@@ -13,7 +13,7 @@ export default function Root(){
 
     useEffect(()=>{
         if(logged)
-            router.push("/community")
+            router.replace("/community")
     },[logged])
     return(
         <div id="loginPage">

@@ -71,13 +71,15 @@ export default function Checador(){
             <div id="botones">
                 <Boton
                     identifier ="iniciar"
-                    onClick = {iniciar}
+                    text = "INICIAR"
+                    handleClick = {iniciar}
                     icon = {<i className="bi bi-play-circle"></i>}
                     
                 />
                 <Boton
                     identifier = "finalizar"
-                    onClick = {finalizar}
+                    text = "FINALIZAR"
+                    handleClick = {finalizar}
                     icon = {<i className="bi bi-pause-circle"></i>}
                 />
 

@@ -3,7 +3,7 @@ import Providers from "@/public/store/provider.js";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import { MantineProvider } from "@mantine/core";
-import "./all.min.css";
+import "@/public/all.min.css";
 
 export const metadata = {
   title: "Sabueso-Community",
