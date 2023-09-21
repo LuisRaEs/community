@@ -51,7 +51,7 @@ export default function NavBar() {
                 </Link>
             </div>
             <div className="nbbutton">
-                <Link href="/community/ausencias">
+                <Link href="/community/misausencias">
                     <i className="bi bi-calendar2-week"></i> { expand ? <span className = "nbbtext">{t["navbar_absences"]}</span> : ""}
                 </Link>
             </div>
