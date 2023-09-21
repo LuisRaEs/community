@@ -1,12 +1,12 @@
 "use client";
 import "./misausencias.css";
-import "../../public/colores.css";
+import "../../../public/colores.css";
 import {
   RegistroAusencia,
   Catalogo_Categoria,
   User,
-} from "../../public/community";
-import { setJWT } from "../../public/commons";
+} from "../../../public/community";
+import { setJWT } from "../../../public/commons";
 import { useState } from "react";
 import axios from "axios";
 import {
