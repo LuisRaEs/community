@@ -79,6 +79,7 @@ export default function AusenciasControl() {
     const tiposAusenciasCatalogo = await Catalogo_Categoria.buscar({
       qwery: "",
     });
+    console.log(tiposAusenciasCatalogo)
 
     setTiposAusencia(tiposAusenciasCatalogo.Value);
     setAusencias(ausenciasUsuario.Value);
@@ -119,6 +120,7 @@ export default function AusenciasControl() {
 
   const getLoginUser = async () => {
     const data = await User.buscar({ qwery: "username = 'admin'" });
+
     const user = data.Value[0];
 
     sessionStorage.setItem("loginUser", JSON.stringify(user));

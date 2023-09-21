@@ -16,6 +16,16 @@ const sesionSlice = createSlice({
     reducers: {
         changeLang:(state,action)=>{
             return {...state,lang:action.payload}
+        },
+        addError:(state,action)=>{
+            if(!state.errors.includes(action.payload))
+                return {...state,errors:[...state.errors,action.payload]}
+            else
+                return {...state}
+        },
+        removeError:(state,action)=>{
+            let newErrors = state.errors.filter(error=>error!=action.payload)
+            return {...state,errors:newErrors}
         }
     },
     extraReducers: (builder)=>{
@@ -40,5 +50,5 @@ const sesionSlice = createSlice({
 
 
 
-export const {changeLang} = sesionSlice.actions;
+export const {changeLang , addError, removeError} = sesionSlice.actions;
 export const sesion = sesionSlice.reducer;
