@@ -6,73 +6,50 @@ import {
   Catalogo_Categoria,
   User,
 } from "../../../public/community";
-import { setJWT } from "../../../public/commons";
 import { useState } from "react";
-import axios from "axios";
-import {
-  Container,
-  Tab,
-  Tabs,
-  Table,
-  Button,
-  Modal,
-  Row,
-  Col,
-} from "react-bootstrap";
+import { Container, Tab, Tabs, Table, Button, Row, Col } from "react-bootstrap";
 import Calendario from "@/Components/Calendario/Calendario";
+import ModalAusencias from "@/Components/ModalAusencias/ModalAusencias";
+import ModalVacaciones from "@/Components/ModalVacaciones/ModalVacaciones";
+import ModalOtrasAusencias from "@/Components/ModalOtrasAusencias/ModalOtrasAusencias";
 
 export default function AusenciasControl() {
-  const [show, setShow] = useState(false);
   const [tiposAusencia, setTiposAusencia] = useState([]);
   const [ausencias, setAusencias] = useState([]);
   const [ausenciaPopup, setAusenciaPopup] = useState({});
 
-  let url = "http://18.190.84.148:9091/login";
-  const userName = "admin";
+  const [showPopup, setShowPopup] = useState({
+    ausencias: false,
+    vacaciones: false,
+    otrasAusencias: false,
+  });
 
   const currentYear = new Date().getFullYear();
 
-  const handleClose = () => setShow(false);
-  const handleShow = async (id) => {
-    setShow(true);
-    const data = await RegistroAusencia.buscar({
-      qwery: `ID = ${id}`,
-    });
-    setAusenciaPopup(data.Value[0]);
+  {
+    /** Abre los Popups */
+  }
+  const handleClosePopup = (key) =>
+    setShowPopup((prevValue) => ({ ...prevValue, [key]: false }));
+
+  {
+    /** Cierra los Popups */
+  }
+  const handleOpenPopup = async ({ key, id }) => {
+    if (key === "ausencias") {
+      const data = await RegistroAusencia.buscar({
+        qwery: `ID = ${id}`,
+      });
+      setAusenciaPopup(data.Value[0]);
+    }
+
+    setShowPopup((prevValue) => ({ ...prevValue, [key]: true }));
   };
 
-  const [showVacaciones, setShowVacaciones] = useState(false);
-
-  const handleCloseVacaciones = () => setShowVacaciones(false);
-  const handleShowVacaciones = async () => {
-    setShowVacaciones(true);
-  };
-
-  const [showOtrasAusencias, setShowOtrasAusencias] = useState(false);
-
-  const handleCloseOtrasAusencias = () => setShowOtrasAusencias(false);
-  const handleShowOtrasAusencias = async () => {
-    setShowOtrasAusencias(true);
-  };
-
-  let axiosConfig = {
-    headers: {
-      "Content-Type": "application/json;charset=UTF-8",
-      user: "admin",
-      pwd: "1234",
-      //"Access-Control-Allow-Origin": "*",
-    },
-  };
-
-  const buscar = async () => {
-    const peticion = async () => {
-      let { data } = await axios.post(url, {}, axiosConfig);
-      setJWT(data.Value);
-      console.log(data);
-    };
-
-    peticion();
-
+  {
+    /** Busca el historico de las ausencias del usuario */
+  }
+  const buscarResumen = async () => {
     const ausenciasUsuario = await RegistroAusencia.buscar({
       qwery: "solicitador_id = 1",
     });
@@ -85,6 +62,9 @@ export default function AusenciasControl() {
     setAusencias(ausenciasUsuario.Value);
   };
 
+  {
+    /** Da formato a la fecha */
+  }
   const dateFormat = (dateString) => {
     const date = new Date(dateString);
 
@@ -99,23 +79,14 @@ export default function AusenciasControl() {
     return formattedDate;
   };
 
-  const ausenciaTypeConvert = (id) => {
-    switch (id) {
-      case 1:
-        return "Vacaciones";
-
-      case 2:
-        return "Festivos";
-
-      case 3:
-        return "Otras Ausencias";
-
-      case 4:
-        return "Ausencias no Justificadas";
-
-      default:
-        return "No data";
-    }
+  {
+    /** Asigna el nombre del tipo de ausencia segun el ID */
+  }
+  const ausenciaTypeFetcher = (id) => {
+    const tipado = tiposAusencia.filter((t) => {
+      return t.ID === id;
+    });
+    return tipado[0].Nombre;
   };
 
   const getLoginUser = async () => {
@@ -128,209 +99,23 @@ export default function AusenciasControl() {
 
   return (
     <Container className="mt-4">
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Detalle de Ausencia</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Row>
-            <Col className="d-flex gap-2">
-              <h5 className="">Aprobador:</h5>
-              <p>
-                {ausenciaPopup &&
-                  ausenciaPopup.AprobadoPor &&
-                  ausenciaPopup.AprobadoPor.Nombre}{" "}
-                {ausenciaPopup &&
-                  ausenciaPopup.AprobadoPor &&
-                  ausenciaPopup.AprobadoPor.Paterno}
-              </p>
-            </Col>
-          </Row>
-          <h5 className="text-center">Tiempo del Permiso</h5>
-          <Row>
-            <Col className="d-flex gap-4 justify-content-center">
-              <p>
-                {ausenciaPopup && ausenciaPopup.DiasSolicitados} Días
-                requeridos,{" "}
-              </p>
-              <p>
-                {ausenciaPopup && ausenciaPopup.GoceSueldo
-                  ? "Con goce de sueldo"
-                  : "Sin goce de sueldo"}
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="d-flex gap-2 justify-content-center">
-              <p className="bold">Fechas Inicio</p>
-              <p>
-                {ausenciaPopup &&
-                  dateFormat(ausenciaPopup.FechaSolicitadaInicio)}
-              </p>
-            </Col>
-            <Col className="d-flex gap-2 justify-content-center">
-              <p className="bold">Fechas Fin</p>
-              <p>
-                {ausenciaPopup &&
-                  dateFormat(ausenciaPopup.FechaSolicitadaInicio)}
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="d-flex gap-2 justify-content-center">
-              <p className="bold">Hora Inicio</p>
-              <p>N/A</p>
-            </Col>
-            <Col className="d-flex gap-2 justify-content-center">
-              <p className="bold">Hora fin</p>
-              <p>N/A</p>
-            </Col>
-          </Row>
-          <Row></Row>
-          <Row>
-            <Col>
-              <h5 className="text-center">Motivo</h5>
-              <p>{ausenciaPopup && ausenciaPopup.Motivo}</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h5 className="text-center">Observaciones</h5>
-              <p>{ausenciaPopup && ausenciaPopup.Observaciones}</p>
-            </Col>
-          </Row>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cerrar
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <Modal show={showVacaciones} onHide={handleCloseVacaciones}>
-        <Modal.Header closeButton>
-          <Modal.Title>Solicitud de Vacaciones</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Row>
-            <Col className="d-flex gap-2">
-              <h5 className="">Aprobador:</h5>
-              <p>Ricardo Ruiz</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="d-flex gap-2 ">
-              <p className="bold">
-                Dias a los que tengo derecho en este periodo:
-              </p>
-              <p>5 Días</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="d-flex gap-2 justify-content-center">
-              <p className="bold">Fechas Inicio</p>
-              <p>09-06-2023</p>
-            </Col>
-            <Col className="d-flex gap-2 justify-content-center">
-              <p className="bold">Fechas Fin</p>
-              <p>15-06-2023</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="d-flex gap-2 justify-content-center">
-              <p className="bold">Hora Inicio</p>
-              <p>N/A</p>
-            </Col>
-            <Col className="d-flex gap-2 justify-content-center">
-              <p className="bold">Hora fin</p>
-              <p>N/A</p>
-            </Col>
-          </Row>
-          <Row></Row>
-          <Row>
-            <Col>
-              <h5 className="text-center">Motivo</h5>
-              <p>Viaje Familiar</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h5 className="text-center">Observaciones</h5>
-              <p>Sin Observaciones</p>
-            </Col>
-          </Row>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseVacaciones}>
-            Cerrar
-          </Button>
-          <Button variant="primary" onClick={handleCloseVacaciones}>
-            Solicitar
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      {/* Modal general de Ausencias */}
+      <ModalAusencias
+        dateFormat={dateFormat}
+        ausenciaPopup={ausenciaPopup}
+        showPopup={showPopup}
+        handleClosePopup={handleClosePopup}
+      />
+      {/* Modal de Vacaciones */}
+      <ModalVacaciones
+        showPopup={showPopup}
+        handleClosePopup={handleClosePopup}
+      />
       {/* Modal de Otras Ausencias */}
-      <Modal show={showOtrasAusencias} onHide={handleCloseOtrasAusencias}>
-        <Modal.Header closeButton>
-          <Modal.Title>Solicitud de Otras Ausencias</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Row>
-            <Col className="d-flex gap-2">
-              <h5 className="">Aprobador:</h5>
-              <p>Ricardo Ruiz</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="d-flex gap-2 ">
-              <p className="bold">
-                Dias a los que tengo derecho en este periodo:
-              </p>
-              <p>5 Días</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="d-flex gap-2 justify-content-center">
-              <p className="bold">Fechas Inicio</p>
-              <p>09-06-2023</p>
-            </Col>
-            <Col className="d-flex gap-2 justify-content-center">
-              <p className="bold">Fechas Fin</p>
-              <p>15-06-2023</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="d-flex gap-2 justify-content-center">
-              <p className="bold">Hora Inicio</p>
-              <p>N/A</p>
-            </Col>
-            <Col className="d-flex gap-2 justify-content-center">
-              <p className="bold">Hora fin</p>
-              <p>N/A</p>
-            </Col>
-          </Row>
-          <Row></Row>
-          <Row>
-            <Col>
-              <h5 className="text-center">Motivo</h5>
-              <p>Viaje Familiar</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h5 className="text-center">Observaciones</h5>
-              <p>Sin Observaciones</p>
-            </Col>
-          </Row>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseOtrasAusencias}>
-            Cerrar
-          </Button>
-          <Button variant="primary" onClick={handleCloseOtrasAusencias}>
-            Solicitar
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <ModalOtrasAusencias
+        showPopup={showPopup}
+        handleClosePopup={handleClosePopup}
+      />
       <Tabs defaultActiveKey="Resumen" id="ausencias-tab" className="mb-3">
         <Tab eventKey="Resumen" title="Resumen">
           <h3>Resumen de mis ausencias</h3>
@@ -354,7 +139,7 @@ export default function AusenciasControl() {
                   return (
                     <tr key={a.ID}>
                       <td>{i + 1}</td>
-                      <td>{ausenciaTypeConvert(a.TipoDeAusenciaID)}</td>
+                      <td>{ausenciaTypeFetcher(a.TipoDeAusenciaID)}</td>
                       <td>{dateFormat(a.FechaDeSolicitud)}</td>
                       <td>{dateFormat(a.FechaAprobada)}</td>
                       <td>
@@ -373,7 +158,9 @@ export default function AusenciasControl() {
                       </td>
                       <td>
                         <Button
-                          onClick={() => handleShow(a.ID)}
+                          onClick={() =>
+                            handleOpenPopup({ key: "ausencias", id: a.ID })
+                          }
                           className="btn-descarga"
                         >
                           <i className="fas fa-file"></i>
@@ -384,7 +171,7 @@ export default function AusenciasControl() {
                 })}
             </tbody>
           </Table>
-          <Button onClick={buscar}>Buscar</Button>
+          <Button onClick={buscarResumen}>Buscar</Button>
         </Tab>
         <Tab eventKey="Vacaciones" title="Vacaciones">
           <Row>
@@ -436,7 +223,10 @@ export default function AusenciasControl() {
                   <p className="mb-0">Festivo</p>
                 </div>
               </div>
-              <Button onClick={handleShowVacaciones} className="mt-3">
+              <Button
+                onClick={() => handleOpenPopup({ key: "vacaciones", id: null })}
+                className="mt-3"
+              >
                 Solicitar
               </Button>
             </Col>
@@ -483,7 +273,12 @@ export default function AusenciasControl() {
                   <p className="mb-0">Festivo</p>
                 </div>
               </div>
-              <Button onClick={handleShowOtrasAusencias} className="mt-3">
+              <Button
+                onClick={() =>
+                  handleOpenPopup({ key: "otrasAusencias", id: null })
+                }
+                className="mt-3"
+              >
                 Solicitar
               </Button>
             </Col>
