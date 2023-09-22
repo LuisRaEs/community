@@ -24,6 +24,15 @@ const sesionSlice = createSlice({
     },
     removeError: (state, action) => {
       let newErrors = state.errors.filter((error) => error != action.payload);
+    },
+    addError: (state, action) => {
+      if (!state.errors.includes(action.payload))
+        return { ...state, errors: [...state.errors, action.payload] };
+      else return { ...state };
+    },
+    removeError: (state, action) => {
+      let newErrors = state.errors.filter((error) => error != action.payload);
+      return { ...state, errors: newErrors };
       return { ...state, errors: newErrors };
     },
   },
@@ -45,5 +54,5 @@ const sesionSlice = createSlice({
   },
 });
 
-export const { changeLang, addError, removeError } = sesionSlice.actions;
+export const { changeLang } = sesionSlice.actions;
 export const sesion = sesionSlice.reducer;

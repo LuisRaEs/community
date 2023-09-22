@@ -21,7 +21,7 @@ export default function NavBar() {
                 <i className={expand ?  "bi bi-arrow-bar-left" : "bi bi-arrow-bar-right"}></i>
             </div>
             <div className="nbbutton">
-                <Link href="#">
+                <Link href="/community/configuraciones">
                     <i className="bi bi-gear"></i> { expand ? <span className = "nbbtext">{t["navbar_config"]}</span> : ""} 
                 </Link>
             </div>
