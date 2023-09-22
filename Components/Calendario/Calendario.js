@@ -8,7 +8,7 @@ function Calendario() {
 
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
-  console.log(rangeDate);
+  //console.log(rangeDate);
 
   const dateFormat = (dateString) => {
     const date = new Date(dateString);
