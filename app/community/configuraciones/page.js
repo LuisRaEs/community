@@ -5,27 +5,48 @@ import { useState } from "react"
 import "./configuraciones.css"
 
 export default function page() {
-    let [form,setForm] = useState({})
-    const handleChange = (e)=>{
-        setForm(state=>{return{...state,[e.target.name]:e.target.value}})
-        console.log(form)
-    }
+    let [form,setForm] = useState({
+        prueba : "",
+        prueba12 : ""
+    })
+    
 
   return (
     <div id="conf">
         <InputText
             identifier = "prueba"
+            controlled = "true"
             label = "PRUEBA"
-            handleChange = {handleChange}
+            title = "Varificador de title"
+            state = {form}
+            setState = {setForm}
             regex = {/^\d{2,3}$/}
             placeHolder = "Escriba texto"
-            value = {form.prueba}
+        />
+        <InputText
+            identifier = "prueba12"
+            label = "PRUEBA"
             title = "Varificador de title"
+            state = {form}
+            setState = {setForm}
+            regex = {/^\d{2,3}$/}
+            placeHolder = "Escriba texto"
         />
 
-        <InputText identifier = "prueba2" handleChange = {handleChange}/>
 
-        <InputSelect
+        
+    </div>
+  )
+}
+
+
+
+/*
+
+            <InputText identifier = "prueba2" handleChange = {handleChange}/>
+
+
+                <InputSelect
             label = "Primero"
             identifier= "miselect1"
             options = {["op1","op2", "sdcs", "sdwwrgete", "sjbfkjef"]}
@@ -46,6 +67,7 @@ export default function page() {
             selectedop = {form.miselect3}
             handleChange = {handleChange}
         />
-    </div>
-  )
-}
+
+
+
+*/

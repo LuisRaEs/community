@@ -42,18 +42,40 @@ export default function MiComponente(){                                         
 */
 
 
-export default function InputText({identifier,label,placeHolder,handleChange,inputWidth,style,value,regex, title}) {
-    const [pass,setPass] = useState(false)
+export default function InputText({identifier,label,controlled,placeHolder,inputWidth,style,regex, title,state,setState}) {
     const dispatch = useDispatch()
+    const inputType = typeof (state[identifier])
+    const [pass,setPass] = useState(false)
+
+    const handleChange = (e)=>{
+        let v
+        if(inputType == "number" && e.target.value!= "") 
+        {
+            v = Number(e.target.value)
+        }
+        else 
+            v = e.target.value
+
+        setState(oldState=>{return{...oldState,[e.target.name]:v }
+        })
+    }
+        
     useEffect(()=>{
-        if(!regex)
-            setPass(true)
-        else
-            dispatch(addError(identifier))
+        if(controlled == true || controlled == "true"){
+            if(!regex)
+                setPass(true)
+            else
+                dispatch(addError(identifier))
+            
+            }
+
         return ()=>{
             dispatch(removeError(identifier))
         }
     },[])
+    
+
+
     return(
     <Form.Group className="mb-3" style={style??{width:inputWidth ?? "70%",margin:"0 auto"}}>
 
@@ -63,28 +85,32 @@ export default function InputText({identifier,label,placeHolder,handleChange,inp
             name = {identifier}
             type = "text" 
             placeholder = {placeHolder ?? ""}
-            value = {value ?? undefined}
-            onChange = {e=>{
-                if (handleChange)
+            value = {String(state[identifier]) ?? undefined}
+            onChange ={ 
+                e=>{
                     handleChange(e)
-                if(regex)
-                {
-                    if(regex.test(e.target.value))
+                    if(controlled == true || controlled == "true")
                     {
-                        setPass(true)
-                        dispatch(removeError(identifier))
-                    }
-                    else
-                    {
-                        setPass(false)
-                        dispatch(addError(identifier))
+                        if(regex)
+                        {
+                            if(regex.test(e.target.value))
+                            {
+                                setPass(true)
+                                dispatch(removeError(identifier))
+                            }
+                            else
+                            {
+                                setPass(false)
+                                dispatch(addError(identifier))
+                            }
+                        }
+                        else
+                            setPass(true)
                     }
                 }
-                else
-                    setPass(true)
-            }}
+            }
             
-            style = {{boxShadow: `0px 0px 5px 5px  ${pass ? "rgba(0,255,0,0.5)":"rgba(255,0,0,0.5)"}`}}
+            style = {controlled ? {boxShadow: `0px 0px 5px 5px  ${pass ? "rgba(0,255,0,0.5)":"rgba(255,0,0,0.5)"}`} : undefined}
         />
     </Form.Group>
   )
